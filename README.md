@@ -1,5 +1,13 @@
 # VaultPress
 
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/badge/status-pre--release-orange?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/cli-vaultpress%20%7C%20vp-blue?style=flat-square" alt="CLI" />
+</p>
+
 **Export Obsidian-style Markdown notes to high-quality PDFs.**
 
 VaultPress is an **Obsidian-aware Markdown to PDF exporter** for note-heavy documents, research notes, embeds, callouts, equations, and mixed Chinese/English technical writing.
@@ -26,7 +34,6 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Known limitations](#known-limitations)
 - [What still needs work](#what-still-needs-work)
 - [Roadmap (near-term)](#roadmap-near-term)
-- [Design notes](#design-notes)
 - [License](#license)
 
 ## Installation
@@ -254,13 +261,6 @@ Near-term priorities:
 3. screenshot-based examples
 4. cleaner logging/temp-file behavior
 5. more polished installation and packaging story
-
-## Design notes
-
-Useful docs in this repo:
-- `docs/obsidian-export-pdf/INTERNAL-DESIGN.md`
-- `docs/obsidian-export-pdf/READINESS-CHECKLIST.md`
-- `examples/COMPARISON-NOTES.md`
 
 ## License
 
