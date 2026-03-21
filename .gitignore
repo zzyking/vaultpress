@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+*.log
+*.tmp
+*.temp
+.vaultpress-tmp.*/
+*.debug.html
+*.recheck.pdf
+bin/vaultpress-fixtures
+fixtures/

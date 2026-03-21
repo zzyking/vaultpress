@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT="$ROOT/lib/export_with_edge.sh"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  vaultpress [options] <note.md>
+
+Options:
+  -o, --output <file.pdf>   Set output PDF path
+      --debug-html <file>   Save intermediate rendered HTML to this path
+      --keep-temp           Keep temporary render directory
+      --paper-size <size>   Paper size for print CSS hint (default: A4)
+  -h, --help                Show this help
+EOF
+}
+
+OUTPUT=""
+DEBUG_HTML=""
+KEEP_TEMP="0"
+PAPER_SIZE="A4"
+POSITIONAL=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o|--output)
+      OUTPUT="${2:-}"
+      shift 2
+      ;;
+    --debug-html)
+      DEBUG_HTML="${2:-}"
+      shift 2
+      ;;
+    --keep-temp)
+      KEEP_TEMP="1"
+      shift
+      ;;
+    --paper-size)
+      PAPER_SIZE="${2:-}"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      POSITIONAL+=("$@")
+      break
+      ;;
+    -*)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 2
+      ;;
+    *)
+      POSITIONAL+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ ${#POSITIONAL[@]} -ne 1 ]]; then
+  usage >&2
+  exit 2
+fi
+
+NOTE="${POSITIONAL[0]}"
+ARGS=("$NOTE")
+if [[ -n "$OUTPUT" ]]; then
+  ARGS+=("$OUTPUT")
+fi
+
+export OPENCLAW_OBS_PDF_DEBUG_HTML="$DEBUG_HTML"
+export OPENCLAW_OBS_PDF_KEEP_TEMP="$KEEP_TEMP"
+export OPENCLAW_OBS_PDF_PAPER_SIZE="$PAPER_SIZE"
+
+exec "$SCRIPT" "${ARGS[@]}"

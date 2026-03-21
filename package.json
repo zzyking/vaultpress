@@ -1,0 +1,21 @@
+{
+  "name": "vaultpress",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Obsidian-aware Markdown to PDF exporter using an Edge browser print pipeline",
+  "license": "MIT",
+  "bin": {
+    "vaultpress": "bin/vaultpress",
+    "vp": "bin/vaultpress",
+    "vaultpress-fixtures": "bin/vaultpress-fixtures"
+  },
+  "scripts": {
+    "export": "bash bin/vaultpress",
+    "fixtures": "bash bin/vaultpress-fixtures",
+    "fixture:embeds": "bash bin/vaultpress-fixtures 03-embeds",
+    "fixture:extensions": "bash bin/vaultpress-fixtures 06-extensions"
+  },
+  "dependencies": {
+    "mathjax-full": "^3.2.2"
+  }
+}
