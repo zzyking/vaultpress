@@ -1,18 +1,19 @@
 # VaultPress
 
-Export **Obsidian-style Markdown notes** to high-quality PDFs.
+**Export Obsidian-style Markdown notes to high-quality PDFs.**
 
-VaultPress is an **Obsidian-aware Markdown to PDF exporter** built for note-heavy documents, research notes, callouts, embeds, and mixed Chinese/English technical writing.
+VaultPress is an **Obsidian-aware Markdown to PDF exporter** for note-heavy documents, research notes, embeds, callouts, equations, and mixed Chinese/English technical writing.
 
-> Current status: usable and worth open-sourcing, but still in the polishing stage.
+It is **not** trying to be the most generic Markdown-to-PDF CLI.
+It is trying to be a better fit for people whose documents actually look like Obsidian notes.
 
-## Why this exists
+> Status: already usable, now being polished into a public-facing project.
+
+## Why VaultPress exists
 
 Generic Markdown-to-PDF tools are fine for standard Markdown.
 
-VaultPress is aimed at a different problem: notes that use **Obsidian-style semantics** and need **browser-quality PDF output**.
-
-That includes things like:
+But real Obsidian notes often contain things like:
 - `[[wikilink]]`
 - `[[note#heading]]`
 - `[[note#^block]]`
@@ -20,10 +21,23 @@ That includes things like:
 - `![[note#heading]]`
 - `![[note#^block]]`
 - callouts
-- math
 - task lists
 - footnotes
+- math
 - Dataview / DataviewJS code blocks
+
+VaultPress adds an **Obsidian-aware preprocessing layer** before browser printing, so the final PDF is closer to how note-heavy documents are actually written and read.
+
+## Positioning
+
+VaultPress should be thought of as:
+- an **Obsidian-aware Markdown to PDF exporter**
+- a tool for **high-quality PDF export of Obsidian-style notes**
+- a browser-print-based pipeline tuned for **real note content**, not just generic Markdown samples
+
+It should **not** be framed as:
+- “another md-to-pdf clone”
+- “the most generic Markdown PDF CLI”
 
 ## Current pipeline
 
@@ -32,28 +46,46 @@ That includes things like:
 3. Microsoft Edge headless print-to-pdf
 4. PDF output
 
-## What it already supports
+This gives the project a practical balance of:
+- browser-quality rendering
+- strong Chinese mixed-text output
+- good handling for research-note style documents
 
-- Standard Markdown
-  - headings
-  - paragraphs
-  - lists
-  - tables
-  - code blocks
-  - images
-- Obsidian-aware features
-  - wikilinks
-  - heading refs
-  - block refs
-  - note embeds
-  - heading embeds
-  - block embeds
-  - callouts
-- Other useful features
-  - task lists
-  - footnotes
-  - MathJax-based math rendering
-  - Dataview / DataviewJS code-block display (non-executing)
+## Supported features
+
+### Standard Markdown
+- headings
+- paragraphs
+- lists
+- tables
+- code blocks
+- images
+
+### Obsidian-aware features
+- wikilinks
+- heading refs
+- block refs
+- note embeds
+- heading embeds
+- block embeds
+- callouts
+
+### Other useful features
+- task lists
+- footnotes
+- MathJax-based math rendering
+- Dataview / DataviewJS code-block display (non-executing)
+- lightweight frontmatter-based export config
+
+## What VaultPress is already good at
+
+Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
+- Obsidian-specific syntax
+- Obsidian-style embeds
+- callout rendering
+- math in note-heavy documents
+- Chinese technical notes and research-style content
+- browser-print output tuned around real reading notes
 
 ## Quick start
 
@@ -63,35 +95,27 @@ Install dependencies:
 npm install
 ```
 
-Export one note:
+Export one note from the repository root:
 
 ```bash
 npm run export -- --output out.pdf path/to/note.md
 ```
 
-Run fixture regression:
+Or call the repository entrypoint directly:
 
 ```bash
-npm run fixtures
+bin/vaultpress --output out.pdf path/to/note.md
 ```
 
-## CLI
-
-Repository entrypoint:
-
-```bash
-bin/vaultpress \
-  --output out.pdf \
-  path/to/note.md
-```
-
-Installed CLI target:
+If the package is linked or installed as a CLI, the intended usage is:
 
 ```bash
 vaultpress --output out.pdf path/to/note.md
-# alias
+# or
 vp --output out.pdf path/to/note.md
 ```
+
+## CLI options
 
 Current options:
 - `--output <file.pdf>`
@@ -121,47 +145,49 @@ Currently supported fields:
 - `print-background`
 - `extra-css`
 
+## Examples
+
+See:
+- `examples/EXAMPLES.md`
+- `examples/COMPARISON-NOTES.md`
+
+Recommended showcase set for this project:
+- `fixtures/03-embeds.pdf`
+- `fixtures/04-callouts.pdf`
+- `fixtures/06-extensions.pdf`
+
+Those cover:
+- Obsidian-aware syntax
+- embed handling
+- callouts
+- math rendering
+- realistic technical-note export quality
+
 ## Repository layout
 
-- `bin/` — stable CLI wrappers
-- `tools/obsidian-export-pdf/` — current entrypoints and compatibility wrappers
+- `bin/` — CLI entrypoints
 - `lib/` — implementation scripts
-- `fixtures/` — regression inputs and exported PDFs
+- `docs/obsidian-export-pdf/` — internal design notes and readiness checklist
 - `examples/` — example notes and comparison notes
-- `docs/obsidian-export-pdf/` — design notes and readiness checklist
+- `fixtures/` — local regression samples and outputs (kept out of git for now)
 
-## Good at right now
+## What still needs work
 
-Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
-- Obsidian-specific syntax
-- Obsidian-style embeds
-- callout rendering
-- math in note-heavy documents
-- Chinese technical notes and research-style content
-
-## Still worth polishing
-
-Before a clean public release, the biggest gaps are:
-- project packaging cleanup
+Before a clean public release, the biggest gaps are still:
 - stronger CLI/config documentation
 - screenshot-based examples
-- page-break / header-footer support
+- page-break support
+- header/footer support
 - more systematic tests
 - temp/log behavior cleanup
+- packaging / installation polish
 
-## Docs
+## Design notes
 
-- Public draft: `tools/obsidian-export-pdf/README-public-draft.md`
-- Internal notes: `docs/obsidian-export-pdf/INTERNAL-DESIGN.md`
-- Readiness checklist: `docs/obsidian-export-pdf/READINESS-CHECKLIST.md`
-- Current status snapshot: `tools/obsidian-export-pdf/STATUS.md`
-
-## License
-
-MIT
-NAL-DESIGN.md`
-- Readiness checklist: `docs/obsidian-export-pdf/READINESS-CHECKLIST.md`
-- Current status snapshot: `tools/obsidian-export-pdf/STATUS.md`
+Useful docs in this repo:
+- `docs/obsidian-export-pdf/INTERNAL-DESIGN.md`
+- `docs/obsidian-export-pdf/READINESS-CHECKLIST.md`
+- `examples/COMPARISON-NOTES.md`
 
 ## License
 
