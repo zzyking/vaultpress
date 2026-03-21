@@ -9,6 +9,118 @@ It is trying to be a better fit for people whose documents actually look like Ob
 
 > Status: already usable, now being polished into a public-facing project.
 
+## Table of contents
+
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [CLI options](#cli-options)
+- [CLI examples](#cli-examples)
+- [Frontmatter config](#frontmatter-config)
+- [Why VaultPress exists](#why-vaultpress-exists)
+- [Positioning](#positioning)
+- [Current pipeline](#current-pipeline)
+- [Supported features](#supported-features)
+- [What VaultPress is already good at](#what-vaultpress-is-already-good-at)
+- [Examples](#examples)
+- [Repository layout](#repository-layout)
+- [Known limitations](#known-limitations)
+- [What still needs work](#what-still-needs-work)
+- [Roadmap (near-term)](#roadmap-near-term)
+- [Design notes](#design-notes)
+- [License](#license)
+
+## Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+For local CLI usage during development, you can link the package:
+
+```bash
+npm link
+```
+
+After that, the intended CLI usage is:
+
+```bash
+vaultpress --output out.pdf path/to/note.md
+# or
+vp --output out.pdf path/to/note.md
+```
+
+## Quick start
+
+Export one note from the repository root:
+
+```bash
+npm run export -- --output out.pdf path/to/note.md
+```
+
+Or call the repository entrypoint directly:
+
+```bash
+bin/vaultpress --output out.pdf path/to/note.md
+```
+
+## CLI options
+
+Current options:
+- `--output <file.pdf>`
+- `--debug-html <file>`
+- `--keep-temp`
+- `--paper-size <size>`
+- `--help`
+
+## CLI examples
+
+Export a note to a specific output path:
+
+```bash
+vaultpress --output out.pdf notes/overview.md
+```
+
+Export while keeping temporary render files for debugging:
+
+```bash
+vaultpress --keep-temp --output out.pdf notes/overview.md
+```
+
+Save the intermediate HTML for inspection:
+
+```bash
+vaultpress --debug-html debug/rendered.html --output out.pdf notes/overview.md
+```
+
+Use a different paper size:
+
+```bash
+vaultpress --paper-size Letter --output out.pdf notes/overview.md
+```
+
+## Frontmatter config
+
+VaultPress also supports lightweight note-level frontmatter config.
+
+```yaml
+---
+title: Exported PDF title
+paper-size: Letter
+margin: 16mm 14mm 18mm 14mm
+print-background: true
+extra-css: path/to/custom.css
+---
+```
+
+Currently supported fields:
+- `title`
+- `paper-size`
+- `margin`
+- `print-background`
+- `extra-css`
+
 ## Why VaultPress exists
 
 Generic Markdown-to-PDF tools are fine for standard Markdown.
@@ -87,64 +199,6 @@ Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
 - Chinese technical notes and research-style content
 - browser-print output tuned around real reading notes
 
-## Quick start
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Export one note from the repository root:
-
-```bash
-npm run export -- --output out.pdf path/to/note.md
-```
-
-Or call the repository entrypoint directly:
-
-```bash
-bin/vaultpress --output out.pdf path/to/note.md
-```
-
-If the package is linked or installed as a CLI, the intended usage is:
-
-```bash
-vaultpress --output out.pdf path/to/note.md
-# or
-vp --output out.pdf path/to/note.md
-```
-
-## CLI options
-
-Current options:
-- `--output <file.pdf>`
-- `--debug-html <file>`
-- `--keep-temp`
-- `--paper-size <size>`
-- `--help`
-
-## Frontmatter config
-
-VaultPress also supports lightweight note-level frontmatter config.
-
-```yaml
----
-title: Exported PDF title
-paper-size: Letter
-margin: 16mm 14mm 18mm 14mm
-print-background: true
-extra-css: path/to/custom.css
----
-```
-
-Currently supported fields:
-- `title`
-- `paper-size`
-- `margin`
-- `print-background`
-- `extra-css`
-
 ## Examples
 
 See:
@@ -171,6 +225,16 @@ Those cover:
 - `examples/` — example notes and comparison notes
 - `fixtures/` — local regression samples and outputs (kept out of git for now)
 
+## Known limitations
+
+Current limitations worth being explicit about:
+- not a full Obsidian renderer
+- Dataview / DataviewJS blocks are displayed, not executed
+- plugin compatibility is intentionally limited
+- custom themes and full Obsidian styling are not reproduced 1:1
+- current PDF backend depends on Microsoft Edge headless print
+- page-break / header-footer support is not finished yet
+
 ## What still needs work
 
 Before a clean public release, the biggest gaps are still:
@@ -181,6 +245,15 @@ Before a clean public release, the biggest gaps are still:
 - more systematic tests
 - temp/log behavior cleanup
 - packaging / installation polish
+
+## Roadmap (near-term)
+
+Near-term priorities:
+1. page-break support
+2. header/footer support
+3. screenshot-based examples
+4. cleaner logging/temp-file behavior
+5. more polished installation and packaging story
 
 ## Design notes
 
