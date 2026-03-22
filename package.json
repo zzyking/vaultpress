@@ -28,6 +28,7 @@
     "lib/export_with_edge.js",
     "lib/export_with_edge.sh",
     "lib/render",
+    "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],

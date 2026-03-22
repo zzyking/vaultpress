@@ -14,6 +14,7 @@ done
 
 ROOT="$(cd -P "$(dirname "$SOURCE")/.." && pwd)"
 SCRIPT="$ROOT/lib/export_with_edge.sh"
+VERSION="$(node -p "require(process.argv[1]).version" "$ROOT/package.json")"
 
 usage() {
   cat <<'EOF'
@@ -21,6 +22,7 @@ Usage:
   vaultpress [options] <note.md>
 
 Options:
+  -v, --version             Show version
   -o, --output <file.pdf>   Set output PDF path
       --debug-html <file>   Save intermediate rendered HTML to this path
       --keep-temp           Keep temporary render directory even on success
@@ -39,6 +41,10 @@ POSITIONAL=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    -v|--version)
+      echo "$VERSION"
+      exit 0
+      ;;
     -o|--output)
       OUTPUT="${2:-}"
       shift 2

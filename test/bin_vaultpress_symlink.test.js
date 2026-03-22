@@ -15,6 +15,7 @@ test('bin/vaultpress resolves package root correctly when invoked through a syml
   fs.mkdirSync(binDir, { recursive: true });
   fs.mkdirSync(libDir, { recursive: true });
   fs.mkdirSync(externalBinDir, { recursive: true });
+  fs.writeFileSync(path.join(packageRoot, 'package.json'), JSON.stringify({ version: '0.0.0-test' }), 'utf8');
 
   fs.copyFileSync(
     path.join(process.cwd(), 'bin', 'vaultpress'),
