@@ -5,8 +5,10 @@ const os = require('os');
 const path = require('path');
 
 const {
+  createRunArtifacts,
   DEFAULT_EDGE_BIN,
   buildPdfOptions,
+  formatExportErrorMessage,
   getPlatformBrowserCandidates,
   parseMarginShorthand,
   resolveBrowserBinary,
@@ -139,4 +141,110 @@ test('buildPdfOptions enables header and footer templates when configured', () =
     bottom: '16mm',
     left: '12mm',
   });
+});
+
+test('createRunArtifacts builds a temp workspace with stable artifact names', () => {
+  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-artifacts-'));
+  const artifacts = createRunArtifacts(rootDir);
+
+  assert.ok(artifacts.tmpDir.startsWith(rootDir));
+  assert.equal(artifacts.htmlPath, path.join(artifacts.tmpDir, 'rendered.html'));
+  assert.equal(artifacts.profileDir, path.join(artifacts.tmpDir, 'browser-profile'));
+  assert.equal(artifacts.logPath, path.join(artifacts.tmpDir, 'browser.log'));
+});
+
+test('formatExportErrorMessage includes temp and log locations for debugging', () => {
+  const message = formatExportErrorMessage(new Error('boom'), {
+    debugHtmlPath: '/tmp/debug.html',
+    htmlPath: '/tmp/rendered.html',
+    logPath: '/tmp/browser.log',
+    tmpDir: '/tmp/vaultpress-run',
+  });
+
+  assert.match(message, /boom/);
+  assert.match(message, /Temp files kept at: \/tmp\/vaultpress-run/);
+  assert.match(message, /Browser log: \/tmp\/browser\.log/);
+  assert.match(message, /Rendered HTML: \/tmp\/rendered\.html/);
+  assert.match(message, /Debug HTML copy: \/tmp\/debug\.html/);
+});
+
+test('exportWithEdge preserves temp files and logs on failure even without keep-temp', async () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-export-fail-'));
+  const notePath = path.join(workspace, 'note.md');
+  const browserPath = path.join(workspace, 'browser');
+  const tmpDir = path.join(workspace, 'tmp-run');
+  fs.writeFileSync(notePath, '# Demo\n');
+  fs.writeFileSync(browserPath, '');
+
+  await assert.rejects(
+    () => require('../lib/export_with_edge').exportWithEdge(notePath, path.join(workspace, 'out.pdf'), {
+      OPENCLAW_OBS_PDF_BROWSER: browserPath,
+      OPENCLAW_OBS_PDF_CWD: workspace,
+    }, {
+      createRunArtifacts() {
+        return {
+          tmpDir,
+          htmlPath: path.join(tmpDir, 'rendered.html'),
+          profileDir: path.join(tmpDir, 'browser-profile'),
+          logPath: path.join(tmpDir, 'browser.log'),
+        };
+      },
+      renderNoteToHtml(options) {
+        fs.mkdirSync(path.dirname(options.outputPath), { recursive: true });
+        fs.writeFileSync(options.outputPath, '<html></html>');
+        return { renderOptions: {} };
+      },
+      async printWithBrowser(_browserPath, _profileDir, _outputPath, _fileUrl, logPath) {
+        fs.writeFileSync(logPath, '[browser] launch failed\n', 'utf8');
+        throw new Error('launch failed');
+      },
+    }),
+    (error) => {
+      assert.match(error.message, /launch failed/);
+      assert.match(error.message, /Temp files kept at:/);
+      return true;
+    },
+  );
+
+  assert.ok(fs.existsSync(tmpDir));
+  assert.ok(fs.existsSync(path.join(tmpDir, 'browser.log')));
+  assert.ok(fs.existsSync(path.join(tmpDir, 'rendered.html')));
+});
+
+test('exportWithEdge removes temp files on success unless keep-temp is set', async () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-export-success-'));
+  const notePath = path.join(workspace, 'note.md');
+  const browserPath = path.join(workspace, 'browser');
+  const tmpDir = path.join(workspace, 'tmp-run');
+  const outputPath = path.join(workspace, 'out.pdf');
+  fs.writeFileSync(notePath, '# Demo\n');
+  fs.writeFileSync(browserPath, '');
+
+  const result = await require('../lib/export_with_edge').exportWithEdge(notePath, outputPath, {
+    OPENCLAW_OBS_PDF_BROWSER: browserPath,
+    OPENCLAW_OBS_PDF_CWD: workspace,
+  }, {
+    createRunArtifacts() {
+      return {
+        tmpDir,
+        htmlPath: path.join(tmpDir, 'rendered.html'),
+        profileDir: path.join(tmpDir, 'browser-profile'),
+        logPath: path.join(tmpDir, 'browser.log'),
+      };
+    },
+    renderNoteToHtml(options) {
+      fs.mkdirSync(path.dirname(options.outputPath), { recursive: true });
+      fs.writeFileSync(options.outputPath, '<html></html>');
+      return { renderOptions: {} };
+    },
+    async printWithBrowser(_browserPath, _profileDir, outputFilePath, _fileUrl, logPath) {
+      fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
+      fs.writeFileSync(outputFilePath, 'pdf');
+      fs.writeFileSync(logPath, '[browser] ok\n', 'utf8');
+    },
+  });
+
+  assert.equal(result, outputPath);
+  assert.ok(fs.existsSync(outputPath));
+  assert.equal(fs.existsSync(tmpDir), false);
 });

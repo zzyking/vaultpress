@@ -110,6 +110,8 @@ Export while keeping temporary render files for debugging:
 vaultpress --keep-temp --output out.pdf notes/overview.md
 ```
 
+When an export fails, VaultPress now keeps the temp directory automatically even without `--keep-temp`, so the browser log and rendered HTML remain available for inspection.
+
 Save the intermediate HTML for inspection:
 
 ```bash
@@ -208,6 +210,7 @@ Current automated coverage focuses on:
 - frontmatter parsing
 - CLI path resolution
 - browser path resolution
+- temp/log lifecycle behavior
 
 ## Page Breaks
 
@@ -377,7 +380,6 @@ Current limitations worth being explicit about:
 
 Before a clean public release, the biggest gaps are still:
 - screenshot-based examples
-- temp/log behavior cleanup
 - packaging / installation polish
 - broader browser/platform support
 
@@ -385,9 +387,8 @@ Before a clean public release, the biggest gaps are still:
 
 Near-term priorities:
 1. screenshot-based examples
-2. cleaner logging/temp-file behavior
-3. more polished installation and packaging story
-4. broader browser/platform support
+2. more polished installation and packaging story
+3. broader browser/platform support
 
 ## License
 

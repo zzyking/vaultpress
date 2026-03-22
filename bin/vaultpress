@@ -12,7 +12,7 @@ Usage:
 Options:
   -o, --output <file.pdf>   Set output PDF path
       --debug-html <file>   Save intermediate rendered HTML to this path
-      --keep-temp           Keep temporary render directory
+      --keep-temp           Keep temporary render directory even on success
       --browser <path>      Override browser binary path
       --paper-size <size>   Paper size for print CSS hint (default: A4)
   -h, --help                Show this help
