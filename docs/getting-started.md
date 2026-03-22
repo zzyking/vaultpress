@@ -12,7 +12,21 @@ Browser auto-detection checks:
 
 ## Install
 
-Install dependencies:
+Install globally from npm:
+
+```bash
+npm install -g vaultpress
+```
+
+Then verify the CLI is available:
+
+```bash
+vaultpress --help
+# or
+vp --help
+```
+
+If you are working from a cloned repository, install dependencies locally:
 
 ```bash
 npm install
@@ -34,7 +48,13 @@ vp --output out.pdf path/to/note.md
 
 ## Quick Start
 
-Export one note:
+Export one note with the published CLI:
+
+```bash
+vp -o out.pdf path/to/note.md
+```
+
+Or call the repository entrypoint directly while developing locally:
 
 ```bash
 bin/vaultpress --output out.pdf path/to/note.md
@@ -42,12 +62,12 @@ bin/vaultpress --output out.pdf path/to/note.md
 
 ## First Run Check
 
-After `npm install`, this is the fastest way to verify the whole toolchain:
+After installation, this is the fastest way to verify the whole toolchain:
 
 1. Check the CLI surface:
 
 ```bash
-bin/vaultpress --help
+vp --help
 ```
 
 2. Run the automated suite:
@@ -67,7 +87,7 @@ cat > "$tmpdir/note.md" <<'EOF'
 - world
 EOF
 
-bin/vaultpress --output /tmp/vaultpress-smoke.pdf "$tmpdir/note.md"
+vp -o /tmp/vaultpress-smoke.pdf "$tmpdir/note.md"
 ls -lh /tmp/vaultpress-smoke.pdf
 ```
 
@@ -81,8 +101,8 @@ cat > "$tmpdir/note.md" <<'EOF'
 Equation: $x^2 + 1$
 EOF
 
-bin/vaultpress --debug-html /tmp/vaultpress-smoke.html \
-  --output /tmp/vaultpress-smoke.pdf \
+vp --debug-html /tmp/vaultpress-smoke.html \
+  -o /tmp/vaultpress-smoke.pdf \
   "$tmpdir/note.md"
 ```
 

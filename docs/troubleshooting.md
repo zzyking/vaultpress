@@ -4,13 +4,13 @@
 
 If export fails, check these first:
 
-- Run `bin/vaultpress --help` to confirm the CLI is linked and callable.
+- Run `vp --help` to confirm the CLI is installed and callable.
 - Run `npm test` to make sure the local install is healthy.
 - If browser launch fails, pass an explicit binary:
 
 ```bash
-bin/vaultpress --browser "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
-  --output out.pdf \
+vp --browser "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
+  -o out.pdf \
   note.md
 ```
 
@@ -24,13 +24,13 @@ On failure, VaultPress prints the exact paths for:
 If you want the rendered HTML regardless of success or failure, use:
 
 ```bash
-bin/vaultpress --debug-html /tmp/vaultpress-debug.html --output out.pdf note.md
+vp --debug-html /tmp/vaultpress-debug.html -o out.pdf note.md
 ```
 
 If you want temp files preserved even on success, use:
 
 ```bash
-bin/vaultpress --keep-temp --output out.pdf note.md
+vp --keep-temp -o out.pdf note.md
 ```
 
 ## Known Limitations

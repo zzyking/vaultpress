@@ -3,7 +3,6 @@
   # VaultPress
 
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
-  <img src="https://img.shields.io/badge/status-pre--release-orange?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge" alt="Platform" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/cli-vaultpress%20%7C%20vp-blue?style=for-the-badge" alt="CLI" />
@@ -37,7 +36,19 @@ Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
 
 ## Quick Start
 
+Install globally:
+
+```bash
+npm install -g vaultpress
+```
+
 Export one note:
+
+```bash
+vp -o out.pdf path/to/note.md
+```
+
+If you are working from a cloned repository instead:
 
 ```bash
 bin/vaultpress --output out.pdf path/to/note.md
