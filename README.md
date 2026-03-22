@@ -2,6 +2,7 @@
   
   # VaultPress
 
+  <img src="https://img.shields.io/npm/v/vaultpress?style=for-the-badge&logo=npm&logoColor=white" alt="NPM Version" />
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
   <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge" alt="Platform" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
@@ -40,6 +41,8 @@ Install globally:
 
 ```bash
 npm install -g vaultpress
+vp --version
+vp --help
 ```
 
 Export one note:
@@ -63,19 +66,7 @@ bin/vaultpress --output out.pdf path/to/note.md
 - [Features and examples](docs/features.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-## Repository layout
-
-- [`bin/`](bin/) — CLI entrypoints
-- [`lib/`](lib/) — implementation scripts and render pipeline modules
-- [`test/`](test/) — regression tests
-- `docs/obsidian-export-pdf/` — internal design notes and readiness checklist
-- [`docs/getting-started.md`](docs/getting-started.md) — installation and first-run guide
-- [`docs/cli.md`](docs/cli.md) — CLI options and path behavior
-- [`docs/frontmatter.md`](docs/frontmatter.md) — frontmatter, page breaks, headers and footers
-- [`docs/features.md`](docs/features.md) — feature overview and example showcase
-- [`docs/troubleshooting.md`](docs/troubleshooting.md) — debugging and failure handling
-- [`examples/`](examples/) — example notes and comparison notes
-- [`examples/screenshots/`](examples/screenshots/) — generated showcase screenshots
+Contributor-facing material lives in [`docs/`](docs/), [`test/`](test/), and the repository source tree.
 
 ## Known limitations
 
