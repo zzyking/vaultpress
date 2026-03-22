@@ -1,14 +1,15 @@
-# VaultPress
+<div align="center">
+  
+  # VaultPress
 
-<p align="center">
-  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License" />
-  <img src="https://img.shields.io/badge/status-pre--release-orange?style=flat-square" alt="Status" />
-  <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=flat-square" alt="Platform" />
-  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/cli-vaultpress%20%7C%20vp-blue?style=flat-square" alt="CLI" />
-</p>
+  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/status-pre--release-orange?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=for-the-badge" alt="Platform" />
+  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/cli-vaultpress%20%7C%20vp-blue?style=for-the-badge" alt="CLI" />
 
-**Export Obsidian-style Markdown notes to high-quality PDFs.**
+  **Export Obsidian-style Markdown notes to high-quality PDFs**
+</div>
 
 VaultPress is an **Obsidian-aware Markdown to PDF exporter** for note-heavy documents, research notes, embeds, callouts, equations, and mixed Chinese/English technical writing.
 
