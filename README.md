@@ -24,7 +24,9 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Quick start](#quick-start)
 - [CLI options](#cli-options)
 - [CLI examples](#cli-examples)
+- [Path resolution](#path-resolution)
 - [Frontmatter config](#frontmatter-config)
+- [Development](#development)
 - [Why VaultPress exists](#why-vaultpress-exists)
 - [Positioning](#positioning)
 - [Current pipeline](#current-pipeline)
@@ -44,6 +46,10 @@ Install dependencies:
 ```bash
 npm install
 ```
+
+VaultPress currently expects:
+- Node.js 18+
+- Microsoft Edge on macOS by default, or an explicit browser path via `--browser`
 
 For local CLI usage during development, you can link the package:
 
@@ -79,6 +85,7 @@ Current options:
 - `--output <file.pdf>`
 - `--debug-html <file>`
 - `--keep-temp`
+- `--browser <path>`
 - `--paper-size <size>`
 - `--help`
 
@@ -108,9 +115,38 @@ Use a different paper size:
 vaultpress --paper-size Letter --output out.pdf notes/overview.md
 ```
 
+Use a custom browser binary instead of the default Edge path:
+
+```bash
+vaultpress --browser "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
+  --output out.pdf \
+  notes/overview.md
+```
+
+## Path resolution
+
+VaultPress now resolves CLI paths relative to the directory where you run the command, not the repository root.
+
+That applies to:
+- the input note path
+- `--output`
+- `--debug-html`
+- `--browser`
+
+Example:
+
+```bash
+cd ~/Documents/my-vault
+vaultpress --output exports/weekly.pdf notes/weekly.md
+```
+
+In that case:
+- `notes/weekly.md` resolves inside `~/Documents/my-vault`
+- `exports/weekly.pdf` is written inside `~/Documents/my-vault/exports`
+
 ## Frontmatter config
 
-VaultPress also supports lightweight note-level frontmatter config.
+VaultPress supports note-level frontmatter via `gray-matter`.
 
 ```yaml
 ---
@@ -122,12 +158,49 @@ extra-css: path/to/custom.css
 ---
 ```
 
+It also accepts the same values inside a nested `pdf` or `pdf_options` object:
+
+```yaml
+---
+title: Exported PDF title
+pdf:
+  format: Letter
+  margin: 16mm 14mm 18mm 14mm
+  print_background: true
+---
+```
+
 Currently supported fields:
 - `title`
 - `paper-size`
 - `margin`
 - `print-background`
 - `extra-css`
+
+Accepted aliases currently include:
+- `paper-size`, `paper_size`, `paperSize`, `format`
+- `print-background`, `print_background`
+- `document-title`, `document_title`
+- `extra-css`, `extra_css`
+
+Notes:
+- `format` maps to the print paper size
+- `extra-css` is resolved relative to the current note first, then the CLI working directory
+- frontmatter is intentionally still lightweight; this is not a full generic config system yet
+
+## Development
+
+Run the regression suite:
+
+```bash
+npm test
+```
+
+Current automated coverage focuses on:
+- render pipeline regression checks
+- frontmatter parsing
+- CLI path resolution
+- browser path resolution
 
 ## Why VaultPress exists
 
@@ -228,10 +301,11 @@ Those cover:
 ## Repository layout
 
 - `bin/` — CLI entrypoints
-- `lib/` — implementation scripts
+- `lib/` — implementation scripts and render pipeline modules
+- `test/` — regression tests
 - `docs/obsidian-export-pdf/` — internal design notes and readiness checklist
 - `examples/` — example notes and comparison notes
-- `fixtures/` — local regression samples and outputs (kept out of git for now)
+- `fixtures/` — local regression samples and exported outputs
 
 ## Known limitations
 
@@ -246,13 +320,12 @@ Current limitations worth being explicit about:
 ## What still needs work
 
 Before a clean public release, the biggest gaps are still:
-- stronger CLI/config documentation
 - screenshot-based examples
 - page-break support
 - header/footer support
-- more systematic tests
 - temp/log behavior cleanup
 - packaging / installation polish
+- broader browser/platform support
 
 ## Roadmap (near-term)
 
@@ -262,6 +335,7 @@ Near-term priorities:
 3. screenshot-based examples
 4. cleaner logging/temp-file behavior
 5. more polished installation and packaging story
+6. broader browser/platform support
 
 ## License
 
