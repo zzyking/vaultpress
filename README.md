@@ -64,6 +64,14 @@ For local CLI usage during development, you can link the package:
 npm link
 ```
 
+For packaging, VaultPress now ships only runtime files:
+- `bin/vaultpress`
+- `lib/`
+- `README.md`
+- `LICENSE`
+
+Fixtures, tests, and internal docs stay repository-only.
+
 After that, the intended CLI usage is:
 
 ```bash
@@ -211,6 +219,7 @@ Current automated coverage focuses on:
 - CLI path resolution
 - browser path resolution
 - temp/log lifecycle behavior
+- package manifest/runtime packaging rules
 
 ## Page Breaks
 
