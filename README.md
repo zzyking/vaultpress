@@ -51,7 +51,12 @@ npm install
 
 VaultPress currently expects:
 - Node.js 18+
-- Microsoft Edge on macOS by default, or an explicit browser path via `--browser`
+- a locally installed Chromium-family browser
+
+Auto-detection currently checks:
+- explicit `--browser` path first
+- browser executables on `PATH`
+- common install locations for Google Chrome, Chromium, and Microsoft Edge
 
 For local CLI usage during development, you can link the package:
 
@@ -117,7 +122,7 @@ Use a different paper size:
 vaultpress --paper-size Letter --output out.pdf notes/overview.md
 ```
 
-Use a custom browser binary instead of the default Edge path:
+Use a custom browser binary instead of auto-detection:
 
 ```bash
 vaultpress --browser "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
@@ -285,7 +290,7 @@ It should **not** be framed as:
 
 1. Markdown / Obsidian note
 2. Obsidian-aware preprocessing → HTML
-3. Microsoft Edge headless print-to-pdf
+3. Chromium-family browser print pipeline
 4. PDF output
 
 This gives the project a practical balance of:
@@ -366,6 +371,7 @@ Current limitations worth being explicit about:
 - plugin compatibility is intentionally limited
 - custom themes and full Obsidian styling are not reproduced 1:1
 - current PDF backend depends on a locally installed Chromium-family browser
+- browser auto-detection is pragmatic, not exhaustive
 
 ## What still needs work
 

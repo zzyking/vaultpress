@@ -4,7 +4,15 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const { DEFAULT_EDGE_BIN, buildPdfOptions, parseMarginShorthand, resolveBrowserBinary, resolveRuntimeOptions } = require('../lib/export_with_edge');
+const {
+  DEFAULT_EDGE_BIN,
+  buildPdfOptions,
+  getPlatformBrowserCandidates,
+  parseMarginShorthand,
+  resolveBrowserBinary,
+  resolveExecutableOnPath,
+  resolveRuntimeOptions,
+} = require('../lib/export_with_edge');
 
 test('resolveRuntimeOptions uses caller cwd for note, output, debug html, and browser paths', () => {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-runtime-'));
@@ -51,6 +59,48 @@ test('resolveBrowserBinary prefers explicit browser env and resolves missing pat
   });
 
   assert.equal(fallback, DEFAULT_EDGE_BIN);
+});
+
+test('resolveExecutableOnPath finds browser binaries from PATH entries', () => {
+  const binDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-path-bin-'));
+  const binaryPath = path.join(binDir, 'google-chrome');
+  fs.writeFileSync(binaryPath, '');
+
+  const resolved = resolveExecutableOnPath('google-chrome', {
+    PATH: binDir,
+  }, 'linux');
+
+  assert.equal(resolved, binaryPath);
+});
+
+test('resolveBrowserBinary prefers PATH browsers before platform fallbacks', () => {
+  const binDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-path-browser-'));
+  const binaryPath = path.join(binDir, 'chromium');
+  fs.writeFileSync(binaryPath, '');
+
+  const resolved = resolveBrowserBinary({
+    PATH: binDir,
+  }, 'linux');
+
+  assert.equal(resolved, binaryPath);
+});
+
+test('getPlatformBrowserCandidates returns common Chromium-family installs for each platform', () => {
+  const darwinCandidates = getPlatformBrowserCandidates('darwin', { HOME: '/Users/test' });
+  assert.ok(darwinCandidates.some((candidate) => candidate.includes('Google Chrome.app')));
+  assert.ok(darwinCandidates.some((candidate) => candidate.includes('Microsoft Edge.app')));
+
+  const linuxCandidates = getPlatformBrowserCandidates('linux', {});
+  assert.ok(linuxCandidates.includes('/usr/bin/google-chrome'));
+  assert.ok(linuxCandidates.includes('/opt/microsoft/msedge/msedge'));
+
+  const winCandidates = getPlatformBrowserCandidates('win32', {
+    PROGRAMFILES: 'C:\\Program Files',
+    'PROGRAMFILES(X86)': 'C:\\Program Files (x86)',
+    LOCALAPPDATA: 'C:\\Users\\king\\AppData\\Local',
+  });
+  assert.ok(winCandidates.some((candidate) => candidate.endsWith(path.join('Edge', 'Application', 'msedge.exe'))));
+  assert.ok(winCandidates.some((candidate) => candidate.endsWith(path.join('Chrome', 'Application', 'chrome.exe'))));
 });
 
 test('parseMarginShorthand expands css-like margin strings for pdf output', () => {
