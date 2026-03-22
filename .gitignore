@@ -8,4 +8,4 @@ node_modules/
 *.recheck.pdf
 bin/vaultpress-fixtures
 fixtures/
-docs/
+docs/obsidian-export-pdf/

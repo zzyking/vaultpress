@@ -21,19 +21,7 @@ npm run screenshots
 ![Extensions screenshot](screenshots/06-extensions.png)
 
 ## Fixture examples
-
-- Basic layout
-  - `fixtures/01-basic-layout.pdf`
-- Links and anchors
-  - `fixtures/02-links-and-anchors.pdf`
-- Embeds
-  - `fixtures/03-embeds.pdf`
-- Callouts
-  - `fixtures/04-callouts.pdf`
-- Print stress
-  - `fixtures/05-print-stress.pdf`
-- Extensions
-  - `fixtures/06-extensions.pdf`
+This page focuses on the public showcase view of VaultPress output rather than internal regression samples.
 
 ## Real-note examples
 
@@ -47,9 +35,9 @@ Suggested future showcase set:
 ## Suggested showcase set
 
 If this repo goes public, the first showcase set should probably be:
-- `fixtures/03-embeds.pdf`
-- `fixtures/04-callouts.pdf`
-- `fixtures/06-extensions.pdf`
+- embeds / linked-note composition
+- callout-heavy reading notes
+- mixed extensions: tasks, footnotes, math, and Dataview code blocks
 
 Because together they show:
 - Obsidian-aware syntax
