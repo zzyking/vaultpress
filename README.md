@@ -22,6 +22,7 @@ It is trying to be a better fit for people whose documents actually look like Ob
 
 - [Installation](#installation)
 - [Quick start](#quick-start)
+- [First Run Check](#first-run-check)
 - [CLI options](#cli-options)
 - [CLI examples](#cli-examples)
 - [Path resolution](#path-resolution)
@@ -29,6 +30,7 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Development](#development)
 - [Page Breaks](#page-breaks)
 - [Headers And Footers](#headers-and-footers)
+- [Troubleshooting](#troubleshooting)
 - [Why VaultPress exists](#why-vaultpress-exists)
 - [Positioning](#positioning)
 - [Current pipeline](#current-pipeline)
@@ -92,6 +94,43 @@ Or call the repository entrypoint directly:
 
 ```bash
 bin/vaultpress --output out.pdf path/to/note.md
+```
+
+## First Run Check
+
+After `npm install`, this is the fastest way to verify the whole toolchain:
+
+1. Check the CLI surface:
+
+```bash
+bin/vaultpress --help
+```
+
+2. Run the automated suite:
+
+```bash
+npm test
+```
+
+3. Run one real export:
+
+```bash
+bin/vaultpress --output /tmp/vaultpress-smoke.pdf fixtures/01-basic-layout.md
+ls -lh /tmp/vaultpress-smoke.pdf
+```
+
+4. If you want to inspect the rendered HTML too:
+
+```bash
+bin/vaultpress --debug-html /tmp/vaultpress-smoke.html \
+  --output /tmp/vaultpress-smoke.pdf \
+  fixtures/06-extensions.md
+```
+
+5. If you are checking publish contents locally:
+
+```bash
+npm run pack:check
 ```
 
 ## CLI options
@@ -221,6 +260,13 @@ Current automated coverage focuses on:
 - temp/log lifecycle behavior
 - package manifest/runtime packaging rules
 
+Useful development commands:
+
+```bash
+npm test
+npm run pack:check
+```
+
 ## Page Breaks
 
 VaultPress supports explicit PDF page breaks.
@@ -267,6 +313,37 @@ Notes:
 - if either template is present, header/footer display is enabled automatically
 - you usually want a larger top/bottom `margin` when using them
 - browser-supported placeholders such as `pageNumber`, `totalPages`, `title`, and `date` can be used inside the template HTML
+
+## Troubleshooting
+
+If export fails, check these first:
+
+- Run `bin/vaultpress --help` to confirm the CLI is linked and callable.
+- Run `npm test` to make sure the local install is healthy.
+- If browser launch fails, pass an explicit binary:
+
+```bash
+bin/vaultpress --browser "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
+  --output out.pdf \
+  fixtures/01-basic-layout.md
+```
+
+- On failure, VaultPress now prints the exact paths for:
+  - the kept temp directory
+  - the browser log
+  - the rendered HTML
+
+- If you want the rendered HTML regardless of success or failure, use:
+
+```bash
+bin/vaultpress --debug-html /tmp/vaultpress-debug.html --output out.pdf note.md
+```
+
+- If you want temp files preserved even on success, use:
+
+```bash
+bin/vaultpress --keep-temp --output out.pdf note.md
+```
 
 ## Why VaultPress exists
 
@@ -389,15 +466,13 @@ Current limitations worth being explicit about:
 
 Before a clean public release, the biggest gaps are still:
 - screenshot-based examples
-- packaging / installation polish
 - broader browser/platform support
 
 ## Roadmap (near-term)
 
 Near-term priorities:
 1. screenshot-based examples
-2. more polished installation and packaging story
-3. broader browser/platform support
+2. broader browser/platform support
 
 ## License
 
