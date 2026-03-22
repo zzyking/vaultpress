@@ -13,6 +13,7 @@ Options:
   -o, --output <file.pdf>   Set output PDF path
       --debug-html <file>   Save intermediate rendered HTML to this path
       --keep-temp           Keep temporary render directory
+      --browser <path>      Override browser binary path
       --paper-size <size>   Paper size for print CSS hint (default: A4)
   -h, --help                Show this help
 EOF
@@ -21,6 +22,7 @@ EOF
 OUTPUT=""
 DEBUG_HTML=""
 KEEP_TEMP="0"
+BROWSER=""
 PAPER_SIZE="A4"
 POSITIONAL=()
 
@@ -37,6 +39,10 @@ while [[ $# -gt 0 ]]; do
     --keep-temp)
       KEEP_TEMP="1"
       shift
+      ;;
+    --browser)
+      BROWSER="${2:-}"
+      shift 2
       ;;
     --paper-size)
       PAPER_SIZE="${2:-}"
@@ -76,6 +82,9 @@ fi
 
 export OPENCLAW_OBS_PDF_DEBUG_HTML="$DEBUG_HTML"
 export OPENCLAW_OBS_PDF_KEEP_TEMP="$KEEP_TEMP"
+export OPENCLAW_OBS_PDF_BROWSER="$BROWSER"
+export OPENCLAW_OBS_PDF_CWD="$PWD"
+export OPENCLAW_OBS_PDF_BASEDIR="$PWD"
 export OPENCLAW_OBS_PDF_PAPER_SIZE="$PAPER_SIZE"
 
 exec "$SCRIPT" "${ARGS[@]}"
