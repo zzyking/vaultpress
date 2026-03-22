@@ -1,8 +1,8 @@
 {
   "name": "vaultpress",
   "version": "0.1.0",
-  "private": true,
   "description": "Obsidian-aware Markdown to PDF exporter using a browser print pipeline",
+  "author": "zzyking <zangzeyuan@bupt.edu.cn>",
   "keywords": [
     "obsidian",
     "markdown",
@@ -14,6 +14,14 @@
     "node": ">=18"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzyking/vaultpress.git"
+  },
+  "homepage": "https://github.com/zzyking/vaultpress#readme",
+  "bugs": {
+    "url": "https://github.com/zzyking/vaultpress/issues"
+  },
   "files": [
     "bin/vaultpress",
     "lib/export_note_to_html.js",

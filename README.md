@@ -13,16 +13,34 @@
 
 VaultPress is an **Obsidian-aware Markdown to PDF exporter** for note-heavy documents, research notes, embeds, callouts, equations, and mixed Chinese/English technical writing.
 
+It is built for people whose Markdown actually looks like Obsidian notes.
 It is **not** trying to be the most generic Markdown-to-PDF CLI.
-It is trying to be a better fit for people whose documents actually look like Obsidian notes.
 
-> Status: already usable, now being polished into a public-facing project.
+## At a glance
+
+VaultPress is for:
+- Obsidian-style notes with `[[wikilink]]`, embeds, callouts, footnotes, math, and mixed technical writing
+- people who care more about note export quality than generic Markdown feature breadth
+- browser-quality PDF export with practical debugging hooks
+
+VaultPress is not for:
+- full Obsidian theme/plugin fidelity
+- arbitrary browser automation workflows
+- being the broadest general-purpose Markdown PDF product
+
+Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
+- Obsidian-specific syntax
+- note embeds and callouts
+- page breaks and PDF headers/footers
+- Chinese technical notes and research-style layouts
+- browser-print output tuned around real reading notes
 
 ## Table of contents
 
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [First Run Check](#first-run-check)
+- [Examples](#examples)
 - [CLI options](#cli-options)
 - [CLI examples](#cli-examples)
 - [Path resolution](#path-resolution)
@@ -37,7 +55,6 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Current pipeline](#current-pipeline)
 - [Supported features](#supported-features)
 - [What VaultPress is already good at](#what-vaultpress-is-already-good-at)
-- [Examples](#examples)
 - [Repository layout](#repository-layout)
 - [Known limitations](#known-limitations)
 - [What still needs work](#what-still-needs-work)
@@ -139,6 +156,30 @@ npm run pack:check
 ```bash
 npm run screenshots
 ```
+
+## Examples
+
+Recommended showcase set for this project:
+- `fixtures/03-embeds.pdf`
+- `fixtures/04-callouts.pdf`
+- `fixtures/06-extensions.pdf`
+
+Current screenshot showcase:
+
+![Embeds screenshot](examples/screenshots/03-embeds.png)
+![Callouts screenshot](examples/screenshots/04-callouts.png)
+![Extensions screenshot](examples/screenshots/06-extensions.png)
+
+Those cover:
+- Obsidian-aware syntax
+- embed handling
+- callouts
+- math rendering
+- realistic technical-note export quality
+
+See also:
+- `examples/EXAMPLES.md`
+- `examples/COMPARISON-NOTES.md`
 
 ## CLI options
 
@@ -454,30 +495,6 @@ Compared with a generic Markdown-to-PDF tool, VaultPress is already strong at:
 - math in note-heavy documents
 - Chinese technical notes and research-style content
 - browser-print output tuned around real reading notes
-
-## Examples
-
-See:
-- `examples/EXAMPLES.md`
-- `examples/COMPARISON-NOTES.md`
-
-Recommended showcase set for this project:
-- `fixtures/03-embeds.pdf`
-- `fixtures/04-callouts.pdf`
-- `fixtures/06-extensions.pdf`
-
-Current screenshot showcase:
-
-![Embeds screenshot](examples/screenshots/03-embeds.png)
-![Callouts screenshot](examples/screenshots/04-callouts.png)
-![Extensions screenshot](examples/screenshots/06-extensions.png)
-
-Those cover:
-- Obsidian-aware syntax
-- embed handling
-- callouts
-- math rendering
-- realistic technical-note export quality
 
 ## Repository layout
 
