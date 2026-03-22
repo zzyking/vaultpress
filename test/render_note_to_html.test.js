@@ -64,3 +64,37 @@ test('renderNoteToHtml uses gray-matter frontmatter, local marked rendering, and
   assert.match(html, /Footnotes/);
   assert.match(html, /math-inline/);
 });
+
+test('renderNoteToHtml supports page-break shorthands and raw html page-break blocks', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-page-break-'));
+  const noteDir = path.join(workspace, 'notes');
+  fs.mkdirSync(noteDir, { recursive: true });
+
+  fs.writeFileSync(path.join(noteDir, 'page-breaks.md'), [
+    '# First',
+    '',
+    '\\pagebreak',
+    '',
+    '## Second',
+    '',
+    '---page-break---',
+    '',
+    '## Third',
+    '',
+    '<div class="page-break"></div>',
+    '',
+    '## Fourth',
+  ].join('\n'));
+
+  const outputPath = path.join(workspace, 'out', 'page-breaks.html');
+  renderNoteToHtml({
+    basedir: workspace,
+    inputPath: path.join(noteDir, 'page-breaks.md'),
+    outputPath,
+  });
+
+  const html = fs.readFileSync(outputPath, 'utf8');
+  const pageBreakMatches = html.match(/<div class="page-break"><\/div>/g) || [];
+  assert.equal(pageBreakMatches.length, 3);
+  assert.match(html, /\.page-break \{ display:block; width:100%; height:0; margin:0; border:0; break-after:page; page-break-after:always; \}/);
+});

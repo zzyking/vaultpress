@@ -27,6 +27,7 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Path resolution](#path-resolution)
 - [Frontmatter config](#frontmatter-config)
 - [Development](#development)
+- [Page Breaks](#page-breaks)
 - [Why VaultPress exists](#why-vaultpress-exists)
 - [Positioning](#positioning)
 - [Current pipeline](#current-pipeline)
@@ -202,6 +203,26 @@ Current automated coverage focuses on:
 - CLI path resolution
 - browser path resolution
 
+## Page Breaks
+
+VaultPress supports explicit PDF page breaks.
+
+Supported forms:
+
+```markdown
+\pagebreak
+```
+
+```markdown
+---page-break---
+```
+
+```html
+<div class="page-break"></div>
+```
+
+All three forms render as a forced page break in the generated PDF.
+
 ## Why VaultPress exists
 
 Generic Markdown-to-PDF tools are fine for standard Markdown.
@@ -266,6 +287,7 @@ This gives the project a practical balance of:
 ### Other useful features
 - task lists
 - footnotes
+- page breaks
 - MathJax-based math rendering
 - Dataview / DataviewJS code-block display (non-executing)
 - lightweight frontmatter-based export config
@@ -315,13 +337,12 @@ Current limitations worth being explicit about:
 - plugin compatibility is intentionally limited
 - custom themes and full Obsidian styling are not reproduced 1:1
 - current PDF backend depends on Microsoft Edge headless print
-- page-break / header-footer support is not finished yet
+- header/footer support is not finished yet
 
 ## What still needs work
 
 Before a clean public release, the biggest gaps are still:
 - screenshot-based examples
-- page-break support
 - header/footer support
 - temp/log behavior cleanup
 - packaging / installation polish
@@ -330,12 +351,11 @@ Before a clean public release, the biggest gaps are still:
 ## Roadmap (near-term)
 
 Near-term priorities:
-1. page-break support
-2. header/footer support
-3. screenshot-based examples
-4. cleaner logging/temp-file behavior
-5. more polished installation and packaging story
-6. broader browser/platform support
+1. header/footer support
+2. screenshot-based examples
+3. cleaner logging/temp-file behavior
+4. more polished installation and packaging story
+5. broader browser/platform support
 
 ## License
 
