@@ -1,6 +1,6 @@
 {
   "name": "vaultpress",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Obsidian-aware Markdown to PDF exporter using a browser print pipeline",
   "author": "zzyking <zangzeyuan@bupt.edu.cn>",
   "keywords": [
