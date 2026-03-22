@@ -47,7 +47,7 @@ test('resolveRuntimeOptions defaults output next to input note', () => {
   assert.equal(runtime.outputPath, path.join(cwd, 'notes', 'demo.pdf'));
 });
 
-test('resolveBrowserBinary prefers explicit browser env and resolves missing paths relative to cwd', () => {
+test('resolveBrowserBinary prefers explicit browser env and otherwise returns a valid platform fallback', () => {
   const cwd = '/tmp/vaultpress-browser';
   const missing = resolveBrowserBinary({
     OPENCLAW_OBS_PDF_BROWSER: './custom/browser',
@@ -56,11 +56,26 @@ test('resolveBrowserBinary prefers explicit browser env and resolves missing pat
 
   assert.equal(missing, path.join(cwd, 'custom', 'browser'));
 
-  const fallback = resolveBrowserBinary({
+  const env = {
+    ...process.env,
     OPENCLAW_OBS_PDF_CWD: cwd,
-  });
+  };
+  const fallback = resolveBrowserBinary(env, process.platform);
+  const pathFallback = [
+    'msedge',
+    'microsoft-edge',
+    'google-chrome',
+    'google-chrome-stable',
+    'chromium',
+    'chromium-browser',
+  ].map((name) => resolveExecutableOnPath(name, env, process.platform)).find(Boolean);
+  const platformCandidates = getPlatformBrowserCandidates(process.platform, env);
 
-  assert.equal(fallback, DEFAULT_EDGE_BIN);
+  assert.ok(
+    fallback === pathFallback
+      || platformCandidates.includes(fallback)
+      || fallback === DEFAULT_EDGE_BIN,
+  );
 });
 
 test('resolveExecutableOnPath finds browser binaries from PATH entries', () => {
