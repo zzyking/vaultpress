@@ -28,6 +28,7 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Frontmatter config](#frontmatter-config)
 - [Development](#development)
 - [Page Breaks](#page-breaks)
+- [Headers And Footers](#headers-and-footers)
 - [Why VaultPress exists](#why-vaultpress-exists)
 - [Positioning](#positioning)
 - [Current pipeline](#current-pipeline)
@@ -223,6 +224,33 @@ Supported forms:
 
 All three forms render as a forced page break in the generated PDF.
 
+## Headers And Footers
+
+VaultPress now supports browser-level PDF headers and footers via frontmatter.
+
+Example:
+
+```yaml
+---
+pdf:
+  margin: 20mm 14mm 20mm 14mm
+  headerTemplate: |
+    <div style="width:100%; font-size:10px; padding:0 10mm; color:#666;">
+      <span class="title"></span>
+    </div>
+  footerTemplate: |
+    <div style="width:100%; font-size:10px; padding:0 10mm; color:#666; text-align:right;">
+      Page <span class="pageNumber"></span> / <span class="totalPages"></span>
+    </div>
+---
+```
+
+Notes:
+- `headerTemplate` and `footerTemplate` are passed to the browser PDF engine
+- if either template is present, header/footer display is enabled automatically
+- you usually want a larger top/bottom `margin` when using them
+- browser-supported placeholders such as `pageNumber`, `totalPages`, `title`, and `date` can be used inside the template HTML
+
 ## Why VaultPress exists
 
 Generic Markdown-to-PDF tools are fine for standard Markdown.
@@ -288,6 +316,7 @@ This gives the project a practical balance of:
 - task lists
 - footnotes
 - page breaks
+- configurable PDF headers and footers
 - MathJax-based math rendering
 - Dataview / DataviewJS code-block display (non-executing)
 - lightweight frontmatter-based export config
@@ -336,14 +365,12 @@ Current limitations worth being explicit about:
 - Dataview / DataviewJS blocks are displayed, not executed
 - plugin compatibility is intentionally limited
 - custom themes and full Obsidian styling are not reproduced 1:1
-- current PDF backend depends on Microsoft Edge headless print
-- header/footer support is not finished yet
+- current PDF backend depends on a locally installed Chromium-family browser
 
 ## What still needs work
 
 Before a clean public release, the biggest gaps are still:
 - screenshot-based examples
-- header/footer support
 - temp/log behavior cleanup
 - packaging / installation polish
 - broader browser/platform support
@@ -351,11 +378,10 @@ Before a clean public release, the biggest gaps are still:
 ## Roadmap (near-term)
 
 Near-term priorities:
-1. header/footer support
-2. screenshot-based examples
-3. cleaner logging/temp-file behavior
-4. more polished installation and packaging story
-5. broader browser/platform support
+1. screenshot-based examples
+2. cleaner logging/temp-file behavior
+3. more polished installation and packaging story
+4. broader browser/platform support
 
 ## License
 

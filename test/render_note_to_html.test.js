@@ -98,3 +98,31 @@ test('renderNoteToHtml supports page-break shorthands and raw html page-break bl
   assert.equal(pageBreakMatches.length, 3);
   assert.match(html, /\.page-break \{ display:block; width:100%; height:0; margin:0; border:0; break-after:page; page-break-after:always; \}/);
 });
+
+test('renderNoteToHtml returns header and footer print options from frontmatter', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-header-footer-'));
+  const noteDir = path.join(workspace, 'notes');
+  fs.mkdirSync(noteDir, { recursive: true });
+
+  fs.writeFileSync(path.join(noteDir, 'print.md'), [
+    '---',
+    'pdf:',
+    '  headerTemplate: "<div>Header</div>"',
+    '  footerTemplate: "<div>Footer</div>"',
+    '  displayHeaderFooter: true',
+    '---',
+    '',
+    '# Printable',
+  ].join('\n'));
+
+  const outputPath = path.join(workspace, 'out', 'print.html');
+  const rendered = renderNoteToHtml({
+    basedir: workspace,
+    inputPath: path.join(noteDir, 'print.md'),
+    outputPath,
+  });
+
+  assert.equal(rendered.renderOptions.displayHeaderFooter, true);
+  assert.equal(rendered.renderOptions.headerTemplate, '<div>Header</div>');
+  assert.equal(rendered.renderOptions.footerTemplate, '<div>Footer</div>');
+});

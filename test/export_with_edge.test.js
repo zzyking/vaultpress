@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const { DEFAULT_EDGE_BIN, resolveBrowserBinary, resolveRuntimeOptions } = require('../lib/export_with_edge');
+const { DEFAULT_EDGE_BIN, buildPdfOptions, parseMarginShorthand, resolveBrowserBinary, resolveRuntimeOptions } = require('../lib/export_with_edge');
 
 test('resolveRuntimeOptions uses caller cwd for note, output, debug html, and browser paths', () => {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'vaultpress-runtime-'));
@@ -51,4 +51,42 @@ test('resolveBrowserBinary prefers explicit browser env and resolves missing pat
   });
 
   assert.equal(fallback, DEFAULT_EDGE_BIN);
+});
+
+test('parseMarginShorthand expands css-like margin strings for pdf output', () => {
+  assert.deepEqual(parseMarginShorthand('12mm'), {
+    top: '12mm',
+    right: '12mm',
+    bottom: '12mm',
+    left: '12mm',
+  });
+  assert.deepEqual(parseMarginShorthand('10mm 20mm 30mm'), {
+    top: '10mm',
+    right: '20mm',
+    bottom: '30mm',
+    left: '20mm',
+  });
+});
+
+test('buildPdfOptions enables header and footer templates when configured', () => {
+  const options = buildPdfOptions({
+    displayHeaderFooter: true,
+    footerTemplate: '<div>Footer</div>',
+    headerTemplate: '<div>Header</div>',
+    margin: '14mm 12mm 16mm 12mm',
+    paperSize: 'Letter',
+    printBackground: true,
+  }, '/tmp/out.pdf');
+
+  assert.equal(options.path, '/tmp/out.pdf');
+  assert.equal(options.format, 'Letter');
+  assert.equal(options.displayHeaderFooter, true);
+  assert.equal(options.headerTemplate, '<div>Header</div>');
+  assert.equal(options.footerTemplate, '<div>Footer</div>');
+  assert.deepEqual(options.margin, {
+    top: '14mm',
+    right: '12mm',
+    bottom: '16mm',
+    left: '12mm',
+  });
 });

@@ -2,7 +2,7 @@
   "name": "vaultpress",
   "version": "0.1.0",
   "private": true,
-  "description": "Obsidian-aware Markdown to PDF exporter using an Edge browser print pipeline",
+  "description": "Obsidian-aware Markdown to PDF exporter using a browser print pipeline",
   "license": "MIT",
   "bin": {
     "vaultpress": "bin/vaultpress",
@@ -19,6 +19,7 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "marked": "^4.3.0",
-    "mathjax-full": "^3.2.2"
+    "mathjax-full": "^3.2.2",
+    "puppeteer-core": "^24.6.1"
   }
 }
