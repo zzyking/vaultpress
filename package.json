@@ -32,6 +32,7 @@
     "fixtures": "bash bin/vaultpress-fixtures",
     "fixture:embeds": "bash bin/vaultpress-fixtures 03-embeds",
     "fixture:extensions": "bash bin/vaultpress-fixtures 06-extensions",
+    "screenshots": "bash bin/vaultpress-screenshots",
     "pack:check": "npm_config_cache=/tmp/vaultpress-npm-cache npm pack --dry-run",
     "test": "node --test"
   },

@@ -25,4 +25,5 @@ test('package manifest only exposes runtime CLI entrypoints and packaged runtime
   assert.ok(pkg.keywords.includes('pdf'));
   assert.equal(pkg.scripts.test, 'node --test');
   assert.equal(pkg.scripts['pack:check'], 'npm_config_cache=/tmp/vaultpress-npm-cache npm pack --dry-run');
+  assert.equal(pkg.scripts.screenshots, 'bash bin/vaultpress-screenshots');
 });

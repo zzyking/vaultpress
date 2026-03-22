@@ -1,5 +1,25 @@
 # Example Outputs
 
+## Screenshot showcase
+
+Generated with:
+
+```bash
+npm run screenshots
+```
+
+### Embeds
+
+![Embeds screenshot](screenshots/03-embeds.png)
+
+### Callouts
+
+![Callouts screenshot](screenshots/04-callouts.png)
+
+### Extensions
+
+![Extensions screenshot](screenshots/06-extensions.png)
+
 ## Fixture examples
 
 - Basic layout

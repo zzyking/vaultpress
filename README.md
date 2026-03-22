@@ -30,6 +30,7 @@ It is trying to be a better fit for people whose documents actually look like Ob
 - [Development](#development)
 - [Page Breaks](#page-breaks)
 - [Headers And Footers](#headers-and-footers)
+- [Screenshots](#screenshots)
 - [Troubleshooting](#troubleshooting)
 - [Why VaultPress exists](#why-vaultpress-exists)
 - [Positioning](#positioning)
@@ -131,6 +132,12 @@ bin/vaultpress --debug-html /tmp/vaultpress-smoke.html \
 
 ```bash
 npm run pack:check
+```
+
+6. If you want to regenerate the showcase screenshots:
+
+```bash
+npm run screenshots
 ```
 
 ## CLI options
@@ -264,6 +271,7 @@ Useful development commands:
 
 ```bash
 npm test
+npm run screenshots
 npm run pack:check
 ```
 
@@ -313,6 +321,28 @@ Notes:
 - if either template is present, header/footer display is enabled automatically
 - you usually want a larger top/bottom `margin` when using them
 - browser-supported placeholders such as `pageNumber`, `totalPages`, `title`, and `date` can be used inside the template HTML
+
+## Screenshots
+
+VaultPress now includes a repeatable screenshot workflow for showcase examples.
+
+Generate the default showcase set:
+
+```bash
+npm run screenshots
+```
+
+Generate specific fixtures:
+
+```bash
+bin/vaultpress-screenshots 03-embeds 04-callouts
+```
+
+Screenshots are written to:
+
+```text
+examples/screenshots/
+```
 
 ## Troubleshooting
 
@@ -436,6 +466,12 @@ Recommended showcase set for this project:
 - `fixtures/04-callouts.pdf`
 - `fixtures/06-extensions.pdf`
 
+Current screenshot showcase:
+
+![Embeds screenshot](examples/screenshots/03-embeds.png)
+![Callouts screenshot](examples/screenshots/04-callouts.png)
+![Extensions screenshot](examples/screenshots/06-extensions.png)
+
 Those cover:
 - Obsidian-aware syntax
 - embed handling
@@ -450,6 +486,7 @@ Those cover:
 - `test/` — regression tests
 - `docs/obsidian-export-pdf/` — internal design notes and readiness checklist
 - `examples/` — example notes and comparison notes
+- `examples/screenshots/` — generated showcase screenshots
 - `fixtures/` — local regression samples and exported outputs
 
 ## Known limitations
@@ -465,14 +502,12 @@ Current limitations worth being explicit about:
 ## What still needs work
 
 Before a clean public release, the biggest gaps are still:
-- screenshot-based examples
 - broader browser/platform support
 
 ## Roadmap (near-term)
 
 Near-term priorities:
-1. screenshot-based examples
-2. broader browser/platform support
+1. broader browser/platform support
 
 ## License
 
